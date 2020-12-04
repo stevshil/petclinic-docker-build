@@ -1,4 +1,6 @@
-#!/bin/bash -xv
+#!/bin/bash
+
+set -xv
 
 # Check if docker-compose is available
 if [[ ! -e docker-compose ]]
@@ -13,6 +15,8 @@ VERSION=$(date +"%Y%m%d%H%M")
 failed=0
 count=0
 
+set +xv
+echo "Waiting for PetClinic to start" 1>&2
 while ./docker-compose logs petclinic | grep Started >/dev/null 2>&1
 do
   sleep 10
@@ -21,11 +25,14 @@ done
 
 if (( count >= 12 ))
 then
-  echo "Petclinic failed to start"
+  echo "Petclinic failed to start" 1>&2
   failed=1
+else
+  echo "Petclinic started OK" 1>&2
 fi
 
 count=0
+echo "Waiting for Petclinic to start" 1>&2
 while ! curl -s localhost:1080 | grep -i petclinic >/dev/null 2>&1
 do
   if (( count >= 12 ))
@@ -37,6 +44,7 @@ do
   ((count=count+1))
 done
 
+set -xv
 if (( failed == 0 ))
 then
   # Get docker registry IP from TFState in S3
