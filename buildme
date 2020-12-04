@@ -7,13 +7,13 @@ then
   chmod +x docker-compose
 fi
 
-docker-compose up -d
+./docker-compose up -d
 VERSION=$(date +"%Y%m%d%H%M")
 
 failed=0
 count=0
 
-while docker-compose logs petclinic | grep Started >/dev/null 2>&1
+while ./docker-compose logs petclinic | grep Started >/dev/null 2>&1
 do
   sleep 10
   ((count=count+1))
@@ -51,7 +51,7 @@ then
 fi
 
 # Clean up
-docker-compose down -f
+./docker-compose down -f
 docker rm -f $(docker ps -a | grep petclinic | awk '{print $1}')
 docker rmi $(docker images | grep petclinic | awk '{print $3}')
 
