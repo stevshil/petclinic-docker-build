@@ -39,6 +39,7 @@ do
   then
     echo "Petclinic failed trying to check web service"
     failed=1
+    break
   fi
   sleep 10
   ((count=count+1))
