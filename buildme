@@ -9,7 +9,7 @@ then
   chmod +x docker-compose
 fi
 
-./docker-compose up -d
+./docker-compose up -d --build
 VERSION=$(date +"%Y%m%d%H%M")
 
 failed=0
