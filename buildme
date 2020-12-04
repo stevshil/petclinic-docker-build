@@ -58,8 +58,17 @@ then
 
   set -xv
   docker tag petclinic:latest $dockerreg:5000/petclinic:$VERSION
-  docker push $dockerreg:5000/petclinic:$VERSION
   docker tag $dockerreg:5000/petclinic:$VERSION $dockerreg:5000/petclinic:latest
+  if ! docker push $dockerreg:5000/petclinic:$VERSION
+  then
+    echo "Failed to push $VERSION to registry" 1>&2
+    failed=1
+  fi
+  if ! docker push $dockerreg:5000/petclinic:latest
+  then
+    echo "Failed to push latest to registry" 1>&2
+    failed=1
+  fi
 fi
 
 # Clean up
