@@ -52,16 +52,18 @@ then
   # Get docker registry IP from TFState in S3
   ENV=$1
   BUCKETNAME=$2
+  set +x
   tfstate=$(aws s3 cp s3://${BUCKETNAME}/${ENV}/terraform.tfstate -)
-  echo "$tfstate" | jq -r '.outputs.docker_registry_ip.value'
+  dockerreg=$(echo "$tfstate" | jq -r '.outputs.docker_registry_ip.value')
 
+  set -xv
   docker tag petclinic:latest $dockerreg:5000/petclinic:$VERSION
   docker push $dockerreg:5000/petclinic:$VERSION
   docker tag $dockerreg:5000/petclinic:$VERSION $dockerreg:5000/petclinic:latest
 fi
 
 # Clean up
-./docker-compose down -f
+./docker-compose down -rmi
 docker rm -f $(docker ps -a | grep petclinic | awk '{print $1}')
 docker rmi $(docker images | grep petclinic | awk '{print $3}')
 
