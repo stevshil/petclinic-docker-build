@@ -33,7 +33,7 @@ fi
 
 count=0
 echo "Testing Petclinic web" 1>&2
-while ! curl -s localhost:1080 | grep -i petclinic >/dev/null 2>&1
+while ! curl -s localhost:1080 | grep -i petclinic
 do
   if (( count >= 12 ))
   then
