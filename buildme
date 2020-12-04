@@ -1,0 +1,58 @@
+#!/bin/bash -xv
+
+docker-compose up -d
+VERSION=$(date +"%Y%m%d%H%M")
+
+failed=0
+count=0
+
+while docker-compose logs petclinic | grep Started >/dev/null 2>&1
+do
+  sleep 10
+  ((count=count+1))
+done
+
+if (( count >= 12 ))
+then
+  echo "Petclinic failed to start"
+  failed=1
+fi
+
+count=0
+while ! curl -s localhost:1080 | grep -i petclinic >/dev/null 2>&1
+do
+  if (( count >= 12 ))
+  then
+    echo "Petclinic failed trying to check web service"
+    failed=1
+  fi
+  sleep 10
+  ((count=count+1))
+done
+
+if (( failed == 0 ))
+then
+  # Get docker registry IP from TFState in S3
+  ENV=$1
+  BUCKETNAME=$2
+  tfstate=$(aws s3 cp s3://${BUCKETNAME}/${ENV}/terraform.tfstate -)
+  echo "$tfstate" | jq -r '.outputs.docker_registry_ip.value'
+
+  docker tag petclinic:latest $dockerreg:5000/petclinic:$VERSION
+  docker push $dockerreg:5000/petclinic:$VERSION
+  docker tag $dockerreg:5000/petclinic:$VERSION $dockerreg:5000/petclinic:latest
+fi
+
+# Clean up
+docker-compose down -f
+docker rm -f $(docker ps -a | grep petclinic | awk '{print $1}')
+docker rmi $(docker images | grep petclinic | awk '{print $3}')
+
+if (( failed == 1 ))
+then
+  echo "FAILED"
+  exit 1
+else
+  echo "SUCCESS"
+  exit 0
+fi
