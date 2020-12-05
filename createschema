@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get the DB endpoint
+tfstate=$(aws s3 cp s3://$S3BUCKENT/$ENVIRONMENT/terraform.tfstate -)
+
+dbserver=$(echo "$tfstate" | jq '.outputs."db-hostname".value')
+dbuser=$(echo "$tfstate" | jq '.outputs."db-user".value')
+dbname=$(echo "$tfstate" | jq '.outputs."db-name".value')
+
+if ! mysql -h $dbserver -u $dbuser -p$DBPASS $dbname <sql/02.sql
+then
+  echo "Failed to create schema for Petclinic" 1>&2
+  exit 1
+fi
+if ! mysql -h $dbserver -u $dbuser -p$DBPASS $dbname <sql/03.sql
+then
+  echo "Failed to load data for Petclinic" 1>&2
+  exit 2
+fi
