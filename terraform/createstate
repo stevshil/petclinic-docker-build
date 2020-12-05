@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [[ -z $BUCKETNAME ]] || [[ -z $ENVIRONMENT ]] || [[ -z $REGION ]]
+then
+  echo "The following environment variables need to be set;"
+  echo "* BUCKETNAME"
+  echo "* ENVIRONMENT"
+  echo "* REGION"
+  exit 1
+fi
+
+cat >state.tf <<_END_
+data "terraform_remote_state" "petclinic" {
+  backend = "s3"
+  config = {
+    bucket = "$BUCKETNAME"
+    key    = "$ENVIRONMENT/terraform.tfstate"
+    region = "$REGION"
+  }
+}
+_END_
+
+cat >backend.tf <<_END_
+terraform {
+  backend "s3" {
+    bucket = "$BUCKETNAME"
+    key    = "$ENVIRONMENT/pc/terraform.tfstate"
+    region = "$REGION"
+  }
+}
+_END_
+
+terraform apply -auto-approve
