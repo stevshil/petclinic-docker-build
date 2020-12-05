@@ -3,9 +3,9 @@
 # Get the DB endpoint
 tfstate=$(aws s3 cp s3://$S3BUCKENT/$ENVIRONMENT/terraform.tfstate -)
 
-dbserver=$(echo "$tfstate" | jq '.outputs."db-hostname".value')
-dbuser=$(echo "$tfstate" | jq '.outputs."db-user".value')
-dbname=$(echo "$tfstate" | jq '.outputs."db-name".value')
+dbserver=$(echo "$tfstate" | jq -r '.outputs."db-hostname".value')
+dbuser=$(echo "$tfstate" | jq -r '.outputs."db-user".value')
+dbname=$(echo "$tfstate" | jq -r '.outputs."db-name".value')
 
 if ! mysql -h $dbserver -u $dbuser -p$DBPASS $dbname <sql/02.sql
 then
