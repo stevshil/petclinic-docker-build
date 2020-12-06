@@ -1,5 +1,16 @@
 #!/bin/bash
 
+currentdir=$PWD
+
+if [[ ! -e ../terraform ]]
+then
+  cd ..
+  wget https://releases.hashicorp.com/terraform/0.14.0/terraform_0.14.0_linux_amd64.zip | unzip -
+  chmod +x terraform
+fi
+
+cd $currentdir
+
 if [[ -z $BUCKETNAME ]] || [[ -z $ENVIRONMENT ]] || [[ -z $REGION ]]
 then
   echo "The following environment variables need to be set;"
@@ -30,7 +41,7 @@ terraform {
 }
 _END_
 
-if terraform apply -auto-approve
+if ../terraform apply -auto-approve
 then
   echo "SUCCESS"
 else
