@@ -59,6 +59,7 @@ then
   if ! ../bin/terraform workspace select $ENVIRONMENT
   then
     echo "Failed to select environment"
+    rm -rf .terraform
     exit 2
   fi
 fi
