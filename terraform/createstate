@@ -52,10 +52,21 @@ then
   exit 1
 fi
 
+# Set workspace
+if ! ../bin/terraform workspace new $ENVIRONMENT
+then
+  echo "Failed to create environment"
+  if ! ../bin/terraform workspace select $ENVIRONMENT
+  then
+    echo "Failed to select environment"
+    exit 2
+  fi
+fi
+
 if ../bin/terraform apply -auto-approve
 then
   echo "SUCCESS"
 else
   echo "FAILURE"
-  exit 2
+  exit 3
 fi
