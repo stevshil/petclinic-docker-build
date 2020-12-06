@@ -10,7 +10,7 @@ then
   fi
   cd ../bin
   wget https://releases.hashicorp.com/terraform/0.14.0/terraform_0.14.0_linux_amd64.zip
-  unzip terraform_0.14.0_linux_amd64.zip 
+  unzip terraform_0.14.0_linux_amd64.zip
   chmod +x terraform
 fi
 
@@ -46,10 +46,16 @@ terraform {
 }
 _END_
 
+if ! ../bin/terraform init
+then
+  echo "TF init failed"
+  exit 1
+fi
+
 if ../bin/terraform apply -auto-approve
 then
   echo "SUCCESS"
 else
   echo "FAILURE"
-  exit 1
+  exit 2
 fi
