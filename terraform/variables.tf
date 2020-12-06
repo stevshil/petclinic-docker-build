@@ -3,7 +3,10 @@ variable "project" {
   default = "petclinic"
 }
 
-variable "dns_suffix" {}
+variable "dns_suffix" {
+  type    = string
+  default = "academy.grads.al-labs.co.uk"
+}
 
 variable "region" {
   type    = string
@@ -54,4 +57,7 @@ variable "iam_policies_jenkins" {
   ]
 }
 
-variable "dns_zone_id" {}
+variable "dns_zone_id" {
+  type    = string
+  default = "Z07626429N74Z31VDFLI"
+}
