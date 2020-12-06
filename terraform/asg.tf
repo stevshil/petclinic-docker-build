@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "petclinic" {
   desired_capacity          = 1
   force_delete              = true
   launch_configuration      = aws_launch_configuration.petclinic.name
-  vpc_zone_identifier       = data.petclinic.outputs.private_subnets
+  vpc_zone_identifier       = data.terraform_remote_state.petclinic.outputs.private_subnets
   load_balancers            = [aws_elb.petclinic]
 
 
