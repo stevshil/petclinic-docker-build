@@ -49,6 +49,7 @@ _END_
 if ! ../bin/terraform init
 then
   echo "TF init failed"
+  rm -rf .terraform
   exit 1
 fi
 
