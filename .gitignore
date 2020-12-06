@@ -1,2 +1,8 @@
 **/docker-compose
-**/terraform
+**/bin/terraform
+**/.terraform
+**/*.lock
+**/*.lock.hcl
+terraform/backend.tf
+terraform/provider.tf
+terraform/state.tf

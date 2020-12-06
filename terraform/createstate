@@ -46,6 +46,12 @@ terraform {
 }
 _END_
 
+cat >provider.tf <<_END_
+provider "aws" {
+  region = "$REGION"
+}
+_END_
+
 if ! ../bin/terraform init
 then
   echo "TF init failed"

@@ -1,6 +1,5 @@
 resource "aws_elb" "petclinic" {
   name                      = "${var.project}-${terraform.workspace}-elb"
-  availability_zones        = ["${var.region}a", "${var.region}b"]
   security_groups           = [data.terraform_remote_state.petclinic.outputs.webapp-sg-id]
   subnets                   = data.terraform_remote_state.petclinic.outputs.public_subnets
   cross_zone_load_balancing = true
