@@ -1,8 +1,8 @@
 resource "aws_elb" "petclinic" {
-  name               = "${var.project}-${terraform.workspace}-elb"
-  availability_zones = ["${var.region}a", "${var.region}b"]
-  security_groups    = [data.petclinic.outputs.webapp-sg-id]
-  subnets            = data.petclinic.outputs.public_subnets
+  name                      = "${var.project}-${terraform.workspace}-elb"
+  availability_zones        = ["${var.region}a", "${var.region}b"]
+  security_groups           = [data.petclinic.outputs.webapp-sg-id]
+  subnets                   = data.petclinic.outputs.public_subnets
   cross_zone_load_balancing = true
 
   listener {
@@ -20,7 +20,6 @@ resource "aws_elb" "petclinic" {
     interval            = 60
   }
 
-  cross_zone_load_balancing   = true
   idle_timeout                = 400
   connection_draining         = true
   connection_draining_timeout = 400
