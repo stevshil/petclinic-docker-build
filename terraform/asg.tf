@@ -1,5 +1,6 @@
 resource "aws_autoscaling_group" "petclinic" {
-  name                      = "${var.project}-${terraform.workspace}-asg"
+  name = "${var.project}-${terraform.workspace}-asg"
+  lifecycle { create_before_destroy = true }
   max_size                  = 5
   min_size                  = 1
   health_check_grace_period = 300
