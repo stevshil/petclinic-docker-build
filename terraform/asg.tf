@@ -10,9 +10,18 @@ resource "aws_autoscaling_group" "petclinic" {
   vpc_zone_identifier       = data.terraform_remote_state.petclinic.outputs.private_subnets
   load_balancers            = [aws_elb.petclinic.name]
 
-  tags = {
-    Name        = "${var.project}-${terraform.workspace}-jenkins"
-    Environment = terraform.workspace
+  tags = concat([
+    {
+      "key" = "Name"
+      "value" = "${var.project}-${terraform.workspace}-jenkins"
+      "propagate_at_launch" = true
+    },
+    {
+      "key" = "Environment"
+      "value" = terraform.workspace
+      "propagate_at_launch" = true
+    }
+
   }
 }
 
