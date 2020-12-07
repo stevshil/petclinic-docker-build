@@ -11,8 +11,8 @@ resource "aws_launch_configuration" "petclinic" {
 
   yum -y install docker
   echo "{
-    insecure-registries: ["${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}:5000"]
-    }" >/etc/docker/daemon.json
+    \"insecure-registries\": ["${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}:5000"]
+  }" >/etc/docker/daemon.json
   systemctl enable docker
   systemctl start docker
   docker run -itd --restart=always --name=petclinic -p8080:8080 "${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}":5000/petclinic:latest
