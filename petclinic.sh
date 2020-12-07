@@ -15,16 +15,19 @@ cat config/application.properties
 
 # Check DB connection is up
 
-count=0
-while !  nc -z -w3 $DBSERVERNAME 3306
-do
-  if (( count > 12 ))
-  then
-    echo "Failed to connect to database" 1>&2
-    exit 1
-  fi
-	sleep 5
-  (( count=count+1))
-done
+if [[ $DBSERVERNAME = mysql ]]
+then
+  count=0
+  while !  nc -z -w3 $DBSERVERNAME 3306
+  do
+    if (( count > 12 ))
+    then
+      echo "Failed to connect to database" 1>&2
+      exit 1
+    fi
+  	sleep 5
+    (( count=count+1))
+  done
+fi
 
 java -jar ./petclinic.jar
