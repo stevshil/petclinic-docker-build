@@ -3,6 +3,7 @@ resource "aws_launch_configuration" "petclinic" {
   image_id        = var.ami[var.region]
   instance_type   = "t2.micro"
   security_groups = [data.terraform_remote_state.petclinic.outputs.internal-sg-id]
+  key_name        = "${var.project}-${terraform.workspace}"
 
 
   user_data = <<EOF
@@ -16,4 +17,9 @@ resource "aws_launch_configuration" "petclinic" {
   systemctl start docker
   docker run -itd --restart=always --name=petclinic -p8080:8080 "${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}":5000/petclinic:latest
   EOF
+
+  tag = {
+    Name        = "${var.project}-${terraform.workspace}-jenkins"
+    Environment = terraform.workspace
+  }
 }
