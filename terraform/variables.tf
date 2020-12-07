@@ -3,6 +3,9 @@ variable "project" {
   default = "petclinic"
 }
 
+variable "db_password" {
+  type = string
+}
 variable "dns_suffix" {
   type    = string
   default = "academy.grads.al-labs.co.uk"

@@ -15,6 +15,6 @@ resource "aws_launch_configuration" "petclinic" {
   }" >/etc/docker/daemon.json
   systemctl enable docker
   systemctl start docker
-  docker run -itd --restart=always --name=petclinic -p8080:8080 -e DBSERVERNAME="${data.terraform_remote_state.petclinic.outputs.db-hostname}" -e DBUSERNAME=petclinic -e DBPASSWORD=$DBPASSWORD "${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}":5000/petclinic:latest
+  docker run -itd --restart=always --name=petclinic -p8080:8080 -e DBSERVERNAME="${data.terraform_remote_state.petclinic.outputs.db-hostname}" -e DBUSERNAME=petclinic -e DBPASSWORD="${var.db_password}" "${data.terraform_remote_state.petclinic.outputs.docker_registry_ip}":5000/petclinic:latest
   EOF
 }
