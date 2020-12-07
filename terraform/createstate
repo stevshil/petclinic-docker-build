@@ -30,7 +30,7 @@ data "terraform_remote_state" "petclinic" {
   backend = "s3"
   config = {
     bucket = "$BUCKETNAME"
-    key    = "$ENVIRONMENT/terraform.tfstate"
+    key    = "terraform.tfstate"
     region = "$REGION"
   }
 }
@@ -40,7 +40,7 @@ cat >backend.tf <<_END_
 terraform {
   backend "s3" {
     bucket = "$BUCKETNAME"
-    key    = "$ENVIRONMENT/pc/terraform.tfstate"
+    key    = "pc/terraform.tfstate"
     region = "$REGION"
   }
 }
