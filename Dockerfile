@@ -8,6 +8,9 @@ FROM openjdk:9
 RUN mkdir /app
 RUN apt-get -y update
 RUN apt-get -y install netcat
+ENV DBSERVERNAME
+ENV DBPASSWORD
+ENV DBUSERNAME
 COPY --from=compile /usr/src/mymaven/target/*.jar /app/petclinic.jar
 COPY application.properties.tmplt /app/
 COPY petclinic.sh /app/
