@@ -20,7 +20,7 @@ then
   count=0
   while !  nc -z -w3 $DBSERVERNAME 3306
   do
-    if (( count > 12 ))
+    if (( count > 24 ))
     then
       echo "Failed to connect to database" 1>&2
       exit 1

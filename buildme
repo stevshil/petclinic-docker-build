@@ -74,7 +74,7 @@ fi
 # Clean up
 ./docker-compose down -rmi
 docker rm -f $(docker ps -a | egrep 'petclinic|mysql' | awk '{print $1}')
-docker rmi -f $(docker images | egrep 'mysql|none|petclinic' | awk '{print $3}'))
+docker rmi -f $(docker images | egrep 'mysql|none|petclinic' | awk '{print $3}')
 
 if (( failed == 1 ))
 then
