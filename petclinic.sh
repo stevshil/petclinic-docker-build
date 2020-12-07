@@ -16,7 +16,7 @@ cat config/application.properties
 # Check DB connection is up
 
 count=0
-while !  nc $DBSERVERNAME 3306
+while !  nc -z -w3 $DBSERVERNAME 3306
 do
   if (( count > 12 ))
   then
