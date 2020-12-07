@@ -1,7 +1,5 @@
 resource "aws_launch_configuration" "petclinic" {
-  depends_on = [aws_autoscaling_group.petclinic]
-  name       = "${var.project}-${terraform.workspace}-lc"
-  lifecycle { create_before_destroy = true }
+  name            = "${var.project}-${terraform.workspace}-lc"
   image_id        = var.ami[var.region]
   instance_type   = "t2.micro"
   security_groups = [data.terraform_remote_state.petclinic.outputs.internal-sg-id]
