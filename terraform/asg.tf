@@ -9,6 +9,11 @@ resource "aws_autoscaling_group" "petclinic" {
   launch_configuration      = aws_launch_configuration.petclinic.name
   vpc_zone_identifier       = data.terraform_remote_state.petclinic.outputs.private_subnets
   load_balancers            = [aws_elb.petclinic.name]
+
+  tag = {
+    Name        = "${var.project}-${terraform.workspace}-jenkins"
+    Environment = terraform.workspace
+  }
 }
 
 resource "aws_autoscaling_attachment" "petclinic" {
