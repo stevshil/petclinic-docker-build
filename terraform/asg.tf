@@ -13,7 +13,7 @@ resource "aws_autoscaling_group" "petclinic" {
   tags = concat([
     {
       "key"                 = "Name"
-      "value"               = "${var.project}-${terraform.workspace}-jenkins"
+      "value"               = "${var.project}-${terraform.workspace}-www"
       "propagate_at_launch" = true
     },
     {
