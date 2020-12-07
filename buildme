@@ -53,7 +53,7 @@ then
   ENV=$1
   BUCKETNAME=$2
   set +x
-  tfstate=$(aws s3 cp s3://${BUCKETNAME}/${ENV}/terraform.tfstate -)
+  tfstate=$(aws s3 cp s3://${BUCKETNAME}/env:${ENV}/terraform.tfstate -)
   dockerreg=$(echo "$tfstate" | jq -r '.outputs.docker_registry_ip.value')
 
   set -xv

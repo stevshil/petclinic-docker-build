@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the DB endpoint
-tfstate=$(aws s3 cp s3://$S3BUCKENT/$ENVIRONMENT/terraform.tfstate -)
+tfstate=$(aws s3 cp s3://$S3BUCKENT/env:/$ENVIRONMENT/terraform.tfstate -)
 
 dbserver=$(echo "$tfstate" | jq -r '.outputs."db-hostname".value')
 dbuser=$(echo "$tfstate" | jq -r '.outputs."db-user".value')
