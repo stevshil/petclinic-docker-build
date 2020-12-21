@@ -52,6 +52,8 @@ provider "aws" {
 }
 _END_
 
+export TF_VAR_region=$REGION
+
 if ! ../bin/terraform init
 then
   echo "TF init failed"
