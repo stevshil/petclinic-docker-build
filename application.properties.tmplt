@@ -21,6 +21,11 @@ spring.messages.basename=messages/messages
 management.endpoints.web.base-path=/manage
 # Spring Boot 1.5 makes actuator secure by default
 management.endpoints.web.enabled=true
+management.security.enabled=false
+management.endpoints.web.exposure.include=*
+management.endpoints.jmx.exposure.include=*
+management.endpoints.enabled-by-default=true
+management.endpoint.info.enabled=true
 
 # Logging
 logging.level.org.springframework=INFO
