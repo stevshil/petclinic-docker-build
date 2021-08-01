@@ -31,15 +31,14 @@ then
 fi
 
 # Start Process exporter
-cd /opt/process-exporter
-process-exporter &
+cd /opt/exporters
+./process-exporter -config.path process-exporter.conf &
 
 # Start Node exporter
-cd /opt/node_exporter
 ./node_exporter &
 
 # Start disk usage
-cd /opt/disk_usage_exporter
 ./disk_usage_exporter &
 
+cd /app
 java -jar ./petclinic.jar
