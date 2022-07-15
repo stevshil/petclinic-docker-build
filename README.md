@@ -10,6 +10,12 @@ This project was updated on the 15th July 2022, because of Apple's stupid idea t
 
 ## Running the project
 
+First you need to make sure you have the latest schema and data:
+
+```bash
+./setup.sh
+```
+
 From this directory simply do:
 
 ```bash
